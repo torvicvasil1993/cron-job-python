@@ -12,11 +12,15 @@ spec:
           containers:
           - name: cron-job-python
             image: cron-job-python
+            volumeMounts:
+            - name: code
+              mountPath: /opt/app-root/src
           restartPolicy: OnFailure
-          source:
-            type: Git
-            git:
-              uri: https://github.com/torvicvasil1993/cron-job-python
-              ref: main
-            contextDir: /
+          volumes:
+          - name: code
+            gitRepo:
+              repository: https://github.com/torvicvasil1993/cron-job-python
+              revision: main
+
+
 
