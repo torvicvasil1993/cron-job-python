@@ -1,0 +1,30 @@
+# template.yaml
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: my-cronjob
+spec:
+  schedule: "*/1 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: my-container
+            image: my-image
+            volumeMounts:
+            - name: code
+              mountPath: /opt/app-root/src
+          restartPolicy: OnFailure
+          source:
+            type: Git
+            git:
+              uri: ${APP_GIT_URL}
+              ref: ${BRANCH_NAME}
+            contextDir: /
+          volumes:
+          - name: code
+            gitRepo:
+              repository: https://github.com/torvicvasil1993/cron-job-python.git
+              revision: main
+
